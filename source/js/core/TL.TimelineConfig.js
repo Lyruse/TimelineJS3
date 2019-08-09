@@ -36,6 +36,9 @@ TL.TimelineConfig = TL.Class.extend({
 				    this.logError(e);
 				}
 			}
+			if (data.lazyLoadCb){
+				this.lazyLoadCb = data.lazyLoadCb;
+			}
 
 			if (data.eras) {
 				for (var i = 0; i < data.eras.length; i++) {

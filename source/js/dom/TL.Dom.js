@@ -14,9 +14,10 @@ TL.Dom = {
 		}
 	},
 
-	create: function(tagName, className, container) {
+	create: function(tagName, className, container, id) {
 		var el = document.createElement(tagName);
 		el.className = className;
+		id && (el.id = id);
 		if (container) {
 			container.appendChild(el);
 		}

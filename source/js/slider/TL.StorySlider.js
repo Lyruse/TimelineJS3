@@ -132,7 +132,7 @@ TL.StorySlider = TL.Class.extend({
 			if (array[i].unique_id == "") {
 				array[i].unique_id = TL.Util.unique_ID(6, "tl-slide");
 			}
-            this._createSlide(array[i], false, -1);
+            //this._createSlide(array[i], false, -1);
 		}
 	},
 
@@ -147,12 +147,13 @@ TL.StorySlider = TL.Class.extend({
 		this._slides.splice(n, 1);
 	},
 
-    _findSlideIndex: function(n) {
-        var _n = n;
-		if (typeof n == 'string' || n instanceof String) {
-			_n = TL.Util.findArrayNumberByUniqueID(n, this._slides, "unique_id");
+    _findSlideIndex: function(id) {
+		for(var i = 0; i < this.data.events.length; i++) {
+			if(id == this.data.events[i].unique_id) {
+				return i;
+			}
 		}
-		return _n;
+		return 0;
     },
 
 	/*	Public
@@ -188,14 +189,21 @@ TL.StorySlider = TL.Class.extend({
 		if (isNaN(n)) n = 0;
 
 		var self = this;
+		
+		var event = this.data.events[n];
+		this.current_id = event.unique_id;
+		this.data.lazyLoadCb(event);
+		
+		this._onSlideChange(displayupdate)
 
-		this.changeBackground({color_value:"", image:false});
+		//this.changeBackground({color_value:"", image:false});
 
 		// Clear Preloader Timer
 		if (this.preloadTimer) {
 			clearTimeout(this.preloadTimer);
 		}
 
+		/*
 		// Set Slide Active State
 		for (var i = 0; i < this._slides.length; i++) {
 			this._slides[i].setActive(false);
@@ -246,6 +254,7 @@ TL.StorySlider = TL.Class.extend({
 				self.preloadSlides(n);
 			}, this.options.duration);
 		}
+		*/
 	},
 
 	goToId: function(id, fast, displayupdate) {
@@ -273,7 +282,7 @@ TL.StorySlider = TL.Class.extend({
 
 	next: function() {
 	    var n = this._findSlideIndex(this.current_id);
-		if ((n + 1) < (this._slides.length)) {
+		if ((n + 1) < (this.data.events.length)) {
 			this.goTo(n + 1);
 		} else {
 			this.goTo(n);
@@ -374,13 +383,15 @@ TL.StorySlider = TL.Class.extend({
 		this._nav.next.setPosition({top:nav_pos});
 		this._nav.previous.setPosition({top:nav_pos});
 
-
+		/*
 		// Position slides
 		for (var i = 0; i < this._slides.length; i++) {
 			this._slides[i].updateDisplay(this.options.width, this.options.height, _layout);
 			this._slides[i].setPosition({left:(this.slide_spacing * i), top:0});
 
 		};
+		
+		*/
 
 		// Go to the current slide
 		this.goToId(this.current_id, true, true);
@@ -409,7 +420,7 @@ TL.StorySlider = TL.Class.extend({
 		this._el.slider_container_mask		= TL.Dom.create('div', 'tl-slider-container-mask', this._el.container);
 		this._el.background 				= TL.Dom.create('div', 'tl-slider-background tl-animate', this._el.container);
 		this._el.slider_container			= TL.Dom.create('div', 'tl-slider-container tlanimate', this._el.slider_container_mask);
-		this._el.slider_item_container		= TL.Dom.create('div', 'tl-slider-item-container', this._el.slider_container);
+		this._el.slider_item_container		= TL.Dom.create('div', 'tl-slider-item-container', this._el.slider_container, "lyruse");
 
 
 		// Update Size
