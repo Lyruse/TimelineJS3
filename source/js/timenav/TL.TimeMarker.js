@@ -158,17 +158,11 @@ TL.TimeMarker = TL.Class.extend({
 		this._el.content_container.style.height = "24px";
 		this._el.timespan_content.style.height = h + "px";
 		// Handle Line height for better display of text
-		if (h <= 30) {
-			this._el.content.className = "tl-timemarker-content tl-timemarker-content-small";
-		} else {
-			this._el.content.className = "tl-timemarker-content";
-		}
+		
+		this._el.content.className = "tl-timemarker-content tl-timemarker-content-small";
 
-		if (h <= 56) {
-			TL.DomUtil.addClass(this._el.content_container, "tl-timemarker-content-container-small");
-		} else {
-			TL.DomUtil.removeClass(this._el.content_container, "tl-timemarker-content-container-small");
-		}
+		
+		TL.DomUtil.addClass(this._el.content_container, "tl-timemarker-content-container-small");
 
 		// Handle number of lines visible vertically
 
