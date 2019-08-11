@@ -155,7 +155,7 @@ TL.TimeMarker = TL.Class.extend({
 		var text_line_height = 12,
 			text_lines = 1;
 
-		this._el.content_container.style.height = h  + "px";
+		this._el.content_container.style.height = "24px";
 		this._el.timespan_content.style.height = h + "px";
 		// Handle Line height for better display of text
 		if (h <= 30) {

@@ -214,9 +214,10 @@ TL.Timeline = TL.Class.extend({
 		}
 		TL.Util.mergeData(this.options, options);
 
-		window.addEventListener("resize", function(e){
+		this.resizeHandler = function(e){
 			self.updateDisplay();
-		});
+		};
+		window.addEventListener("resize", this.resizeHandler);
 
 		// Set Debug Mode
 		TL.debug = this.options.debug;
@@ -232,7 +233,7 @@ TL.Timeline = TL.Class.extend({
 			TL.DomUtil.addClass(this._el.container, 'tl-timeline-full-embed');
 		}
 
-		document.addEventListener("keydown", function(event) {
+		this.keydownHandler = function(event) {
 			var keyName = event.key;
 			var currentSlide = self._getSlideIndex(self.current_id);
 			var _n = self.config.events.length - 1;
@@ -249,7 +250,8 @@ TL.Timeline = TL.Class.extend({
 					self.goToNext();
 				}
 			}
-		});
+		};
+		document.addEventListener("keydown", this.keydownHandler);
 
 		// Use Relative Date Calculations
 		// NOT YET IMPLEMENTED
@@ -382,6 +384,11 @@ TL.Timeline = TL.Class.extend({
 
 	removeId: function(id) {
 		this.remove(this._getEventIndex(id));
+	},
+	
+	destroy: function(){
+		window.removeEventListener("resize", this.resizeHandler);
+		document.removeEventListener("keydown", this.keydownHandler);
 	},
 
 	/* Get slide data
