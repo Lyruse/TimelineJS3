@@ -669,7 +669,7 @@ TL.Timeline = TL.Class.extend({
 	},
 	_validateOptions: function() {
 		// assumes that this.options and this.config have been set.
-		var INTEGER_PROPERTIES = ['timenav_height', 'timenav_height_min', 'marker_height_min', 'marker_width_min', 'marker_padding', 'start_at_slide', 'slide_padding_lr'  ];
+		var INTEGER_PROPERTIES = ['timenav_height', 'timenav_height_min', 'marker_height_min', 'marker_width_min', 'marker_padding', 'slide_padding_lr'  ];
 
 		for (var i = 0; i < INTEGER_PROPERTIES.length; i++) {
 				var opt = INTEGER_PROPERTIES[i];
@@ -879,7 +879,7 @@ TL.Timeline = TL.Class.extend({
 	},
 
 	_onBackToStart: function(e) {
-		this._storyslider.goTo(0);
+		this._storyslider.goToId(this.options.start_at_slide);
 		this.fire("back_to_start", {unique_id:this.current_id}, this);
 	},
 
@@ -935,7 +935,7 @@ TL.Timeline = TL.Class.extend({
 				if( TL.Util.isTrue(this.options.start_at_end) || this.options.start_at_slide > this.config.events.length ) {
 					this.goToEnd();
 				} else {
-					this.goTo(this.options.start_at_slide);
+					this.goToId(this.options.start_at_slide);
 				}
 				if (this.options.hash_bookmark ) {
 					this._updateHashBookmark(this.current_id);

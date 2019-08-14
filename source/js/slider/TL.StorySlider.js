@@ -104,7 +104,8 @@ TL.StorySlider = TL.Class.extend({
 		this._updateDisplay();
 
 		// Go to initial slide
-		this.goTo(this.options.start_at_slide);
+		var n = this._findSlideIndex(this.options.start_at_slide);
+		this.goTo(n);
 
 		this._onLoaded();
 	},
@@ -190,9 +191,12 @@ TL.StorySlider = TL.Class.extend({
 
 		var self = this;
 		
-		var event = this.data.events[n];
+		var events = this.data.events;
+		var event=events[n];
+		var previousEvent = (n-1)>=0 ? events[n-1] : null;
+		var nextEvent = (n+1)<events.length ? events[n+1] : null
 		this.current_id = event.unique_id;
-		this.data.lazyLoadCb(event);
+		this.data.lazyLoadCb && this.data.lazyLoadCb(event, previousEvent, nextEvent);
 		
 		this._onSlideChange(displayupdate)
 

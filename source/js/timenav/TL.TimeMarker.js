@@ -163,6 +163,7 @@ TL.TimeMarker = TL.Class.extend({
 
 		
 		TL.DomUtil.addClass(this._el.content_container, "tl-timemarker-content-container-small");
+		(this.data.type === 1) && TL.DomUtil.addClass(this._el.content_container, "log-event")
 
 		// Handle number of lines visible vertically
 
